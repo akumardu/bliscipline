@@ -35,17 +35,17 @@ namespace Bliscipline.OAuth
         {
             services.AddTransient<IUserValidator, UserValidator>();
             services.AddTransient<IUserRepository, UserRepository>();
-            services.AddSingleton<Func<IDbConnection>>(() => new SqlConnection(Configuration.GetConnectionString("SocialNetwork")));
+            services.AddSingleton<Func<IDbConnection>>(() => new SqlConnection(Configuration.GetConnectionString("bliscipline")));
 
             var assembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
             services.AddIdentityServer()
-                .AddSigningCredential(new X509Certificate2(@"C:\Code\Pluralsight\Module2\SocialNetwork\socialnetwork.pfx", "password"))
+                .AddSigningCredential(new X509Certificate2(@"C:\Code\Pluralsight\Module2\bliscipline\bliscipline.pfx", "password"))
                 .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
                 .AddConfigurationStore(options => {
-                    options.ConfigureDbContext = builder => builder.UseSqlServer(Configuration.GetConnectionString("SocialNetwork.OAuth"), sql => sql.MigrationsAssembly(assembly));
+                    options.ConfigureDbContext = builder => builder.UseSqlServer(Configuration.GetConnectionString("bliscipline.OAuth"), sql => sql.MigrationsAssembly(assembly));
                 })
                 .AddOperationalStore(options => {
-                    options.ConfigureDbContext = builder => builder.UseSqlServer(Configuration.GetConnectionString("SocialNetwork.OAuth"), sql => sql.MigrationsAssembly(assembly));
+                    options.ConfigureDbContext = builder => builder.UseSqlServer(Configuration.GetConnectionString("bliscipline.OAuth"), sql => sql.MigrationsAssembly(assembly));
                 });
 
 

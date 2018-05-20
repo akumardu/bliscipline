@@ -33,7 +33,7 @@ namespace Bliscipline.Web
                     options.SignInScheme = "Cookies";
                     options.Authority = "http://localhost:59418";
                     options.RequireHttpsMetadata = false;
-                    options.ClientId = "socialnetwork_code";
+                    options.ClientId = "bliscipline_code";
                     options.ClientSecret = "secret";
                     options.ResponseType = "id_token code";
                     options.GetClaimsFromUserInfoEndpoint = true;
@@ -71,10 +71,10 @@ namespace Bliscipline.Web
             //    SignInScheme = "Cookies",
             //    Authority = "http://localhost:59418",
             //    RequireHttpsMetadata = false,
-            //    ClientId = "socialnetwork_code",
+            //    ClientId = "bliscipline_code",
             //    ClientSecret = "secret",
             //    ResponseType = "id_token code",
-            //    Scope = { "socialnetwork", "offline_access", "email" },
+            //    Scope = { "bliscipline", "offline_access", "email" },
             //    GetClaimsFromUserInfoEndpoint = true,
             //    SaveTokens = true
             //});

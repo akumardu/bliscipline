@@ -39,6 +39,14 @@ namespace Bliscipline.Api
         {
             services.AddMvc();
 
+            services.AddAuthentication("Bearer")
+                    .AddIdentityServerAuthentication(options =>
+                    {
+                        options.Authority = "http://localhost:59418";
+                        options.RequireHttpsMetadata = false;
+                        options.ApiName = "bliscipline";
+                    });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Social Network API", Version = "v1" });
@@ -48,7 +56,7 @@ namespace Bliscipline.Api
             builder.Populate(services);
 
             builder.Register(x => new Func<IDbConnection>(() => new
-            SqlConnection(Configuration.GetConnectionString("SocialNetwork"))));
+            SqlConnection(Configuration.GetConnectionString("bliscipline"))));
 
             builder.RegisterType<UserRepository>().AsImplementedInterfaces().AsSelf();
 
@@ -65,12 +73,12 @@ namespace Bliscipline.Api
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            app.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
-            {
-                RequireHttpsMetadata = false,
-                Authority = "http://localhost:59418",
-                ApiName = "socialnetwork"
-            });
+            //app.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
+            //{
+            //    RequireHttpsMetadata = false,
+            //    Authority = "http://localhost:59418",
+            //    ApiName = "bliscipline"
+            //});
 
             app.UseStaticFiles();
 
