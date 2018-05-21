@@ -37,14 +37,10 @@ namespace Bliscipline.Web.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult External(string provider)
+        public async Task Logout()
         {
-            var authProperties = new AuthenticationProperties
-            {
-                RedirectUri = "/home/index"
-            };
-
-            return new ChallengeResult(provider, authProperties);
+            await HttpContext.SignOutAsync("Cookies");
+            await HttpContext.SignOutAsync("oidc");
         }
     }
 }

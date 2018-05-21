@@ -1,0 +1,5 @@
+Before running below migrations, ensure: https://docs.microsoft.com/en-us/aspnet/core/migration/1x-to-2x/?view=aspnetcore-2.0#update-main-method-in-programcs (Main program is in sync with .net core 2 standards)
+
+bliscipline\Bliscipline\Bliscipline.OAuth>dotnet ef migrations add InitialIdentityServerPersistedGrantDbMigration -c PersistedGrantDbContext -o Data/Migrations/IdentityServer/PersistedGrantDb
+dotnet ef migrations add InitialIdentityServerConfigurationDbMigration -c ConfigurationDbContext -o Data/Migrations/IdentityServer/ConfigurationDb
+

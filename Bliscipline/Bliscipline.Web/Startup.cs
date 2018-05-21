@@ -12,14 +12,9 @@ namespace Bliscipline.Web
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
-            Configuration = builder.Build();
+            Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -27,8 +22,11 @@ namespace Bliscipline.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(o => o.LoginPath = new PathString("/login"))
+            services.AddMvc();
+            services.AddAuthentication(options => {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+            })
                 .AddOpenIdConnect(options => {
                     options.SignInScheme = "Cookies";
                     options.Authority = "http://localhost:59418";
@@ -39,7 +37,6 @@ namespace Bliscipline.Web
                     options.GetClaimsFromUserInfoEndpoint = true;
                     options.SaveTokens = true;
             });
-            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,7 +60,7 @@ namespace Bliscipline.Web
             //    AuthenticationScheme = "Cookies"
             //});
 
-            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             //app.UseOpenIdConnectAuthentication(new OpenIdConnectOptions
             //{
